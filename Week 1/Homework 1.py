@@ -15,7 +15,7 @@ with open('label.csv', newline='') as f:
 tmp = l[0]
 label = np.array([float(item) for item in tmp])
 
-# build confusion matrix with a threshold of 0.05 a
+# build confusion matrix with a threshold of 0.05
 threshold = 0.05
 label_pred=scores.copy()
 label_pred[scores>threshold]=1
@@ -38,7 +38,7 @@ F1=(2*P*R)/(P+R)
 acc=(TP+TN)/len(label)
 print("Precision: ",P,"\nRecall:",R,"\nF1-score: ",F1,"\nAccuracy: ",acc)
 
-# compute FPR, TPR and draw ROC curve
+# compute FPR, TPR, AUC and draw ROC curve
 fpr, tpr, thresholds = metrics.roc_curve(label, scores, pos_label=1)
 print(thresholds)
 roc_auc = metrics.auc(fpr, tpr)
@@ -56,5 +56,3 @@ plt.ylabel("True Positive Rate")
 plt.title("Receiver operating characteristic example")
 plt.legend(loc="lower right")
 plt.show()
-
-# compute AUC
