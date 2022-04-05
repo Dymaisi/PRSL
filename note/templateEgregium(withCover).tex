@@ -1,0 +1,418 @@
+\documentclass[a4paper,UTF8,openany]{book}
+
+
+\usepackage{xeCJK}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{tocloft}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{ifmtarg}
+\usepackage{environ}
+\usepackage{lipsum}
+\usepackage{multido}
+\usepackage[T1]{fontenc}
+\usepackage{etoc}
+\usepackage{titletoc}
+\usepackage{titlesec}
+\usepackage[left=3.5cm, right=3.5cm, top=4.3cm, bottom=4.25cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[libertine]{newtxmath}
+\usepackage{caption}
+\usepackage{scrextend}
+\usepackage[Bjornstrup]{fncychap} 
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{thmtools}
+\usepackage{listings}
+\usepackage{extarrows}
+\lstset{
+	language = Python,
+    backgroundcolor = \color{gray!10},   % 背景色：淡黄
+    basicstyle = \small\ttfamily,       % 基本样式 + 小号字体
+    rulesepcolor= \color{gray},         % 代码块边框颜色
+    breaklines = true,                  % 代码过长则换行
+    numbers = left,                     % 行号在左侧显示
+    numberstyle = \small,               % 行号字体
+    keywordstyle = \color{blue},        % 关键字颜色
+    commentstyle =\color{Green!100},    % 注释颜色
+    stringstyle = \color{red!100},      % 字符串颜色
+    frame = shadowbox,                  % 用（带影子效果）方框框住代码块
+    showspaces = false,                 % 不显示空格
+    columns = fixed,                    % 字间距固定
+    %escapeinside={<@}{@>}              % 特殊自定分隔符：<@可以自己加颜色@>
+    extendedchars=false,
+	morekeywords = {as},                % 自加新的关键字（必须前后都是空格）
+    deletendkeywords = {compile}        % 删除内定关键字；删除错误标记的关键字用deletekeywords删！
+}
+\usepackage[framemethod=tikz,%
+innerleftmargin=0pt
+skipabove=0pt,
+skipbelow=0pt,
+innertopmargin=0pt,
+innerrightmargin=0pt,
+topline=false,
+rightline=false,
+bottomline=false,
+topline=false,
+leftline=false,
+innerbottommargin=0pt]{mdframed}
+\usepackage{microtype}
+\usepackage[all,pdf]{xy}
+
+
+\setlength{\parindent}{0.67cm}
+
+\usepackage{scrextend}
+\usepackage{geometry}
+\geometry{%
+	papersize={19.7cm,27cm},
+	centering,
+	textwidth=380pt,
+	textheight=650pt}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+
+%cite enviroment
+% fancy quotes
+\definecolor{quotemark}{gray}{0.7}
+\makeatletter
+\def\fquote{%
+	\@ifnextchar[{\fquote@i}{\fquote@i[]}%]
+}%
+\def\fquote@i[#1]{%
+	\def\tempa{#1}%
+	\@ifnextchar[{\fquote@ii}{\fquote@ii[]}%]
+}%
+\def\fquote@ii[#1]{%
+	\def\tempb{#1}%
+	\@ifnextchar[{\fquote@iii}{\fquote@iii[]}%]
+}%
+\def\fquote@iii[#1]{%
+	\def\tempc{#1}%
+	\vspace{1em}%
+	\noindent%
+	\begin{list}{}{%
+			\setlength{\leftmargin}{0.1\textwidth}%
+			\setlength{\rightmargin}{0.1\textwidth}%
+		}%
+		\item[]%
+		\begin{picture}(0,0)%
+		\put(-15,-5){\makebox(0,0){\scalebox{3}{\textcolor{quotemark}{``}}}}%
+		\end{picture}%
+		\begingroup\itshape}%
+	%%%%********************************************************************
+	\def\endfquote{%
+		\endgroup\par%
+		\makebox[0pt][l]{%
+			\hspace{0.8\textwidth}%
+			\begin{picture}(0,0)(0,0)%
+			\put(15,15){\makebox(0,0){%
+					\scalebox{3}{\color{quotemark}''}}}%
+			\end{picture}}%
+		\ifx\tempa\empty%
+		\else%
+		\ifx\tempc\empty%
+		\hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb}%
+		\else%
+		\hfill\rule{100pt}{0.5pt}\\\mbox{}\hfill\tempa,\ \emph{\tempb},\ \tempc%
+		\fi\fi\par%
+		\vspace{0.5em}%
+	\end{list}%
+}%
+\makeatother
+
+%theoremstyle;definition
+\makeatletter%
+\newcommand{\theoremhang}{% top theorem decoration
+	\begingroup%
+	\setlength{\unitlength}{.005\linewidth}% \linewidth/200
+	\begin{picture}(0,0)(1.5,0)%
+	\linethickness{0.45pt} \color{black!50}%
+	\put(-3,2){\line(1,0){206}}% Top line
+	\multido{\iA=2+-1,\iB=50+-10}{5}{% Top hangs
+		\color{black!\iB}%
+		\put(-3,\iA){\line(0,-1){1}}% Top left hang
+		\put(203,\iA){\line(0,-1){1}}% Top right hang
+	}%
+	\end{picture}%
+	\endgroup%
+}%
+\newcommand{\theoremhung}{% bottom theorem decoration
+	\nobreak
+	\begingroup%
+	\setlength{\unitlength}{.005\linewidth}% \linewidth/200
+	\begin{picture}(0,0)(1.5,0)%
+	\linethickness{0.45pt} \color{black!50}%
+	\put(-3,0){\line(1,0){206}}% Bottom line
+	\multido{\iA=0+1,\iB=50+-10}{5}{% Bottom hangs
+		\color{black!\iB}%
+		\put(-3,\iA){\line(0,1){1}}% Bottom left hang
+		\put(203,\iA){\line(0,1){1}}% Bottom right hang
+	}%
+	\end{picture}%
+	\endgroup%
+}%
+
+\newcounter{theorem}[chapter]
+\renewcommand{\thetheorem}{\arabic{theorem}}
+\NewEnviron{theorem}[1][]{%
+	\par\noindent\theoremhang\par\nobreak\noindent%\addvspace{-.5ex}
+	\refstepcounter{theorem}\postdisplaypenalty=10000 %
+	{\sffamily\bfseries\upshape Theorem \thetheorem\@ifnotmtarg{#1}{\ (#1)}}\ \ \itshape\ignorespaces%
+	\BODY % Typeset theorem body/content
+	\par\addvspace{-1ex}\nobreak\noindent\theoremhung\par\addvspace{.4ex}%
+}
+
+\makeatother
+
+
+%Settings of contents
+
+
+\titlecontents{chapter}% <section-type>
+[0pt]% <left>
+{}% <above-code>
+{\bfseries\chaptername\ \thecontentslabel\quad}% <numbered-entry-format>
+{}% <numberless-entry-format>
+{\bfseries\hfill\contentspage}% <filler-page-format>
+
+
+
+
+
+
+%pagestyle
+
+% Section
+
+% Fonts 
+
+\protected\def\mathbb#1{\text{\usefont{U}{msb}{m}{n}#1}} 
+
+% Header and Footer
+
+% Chapter
+
+\newcommand{\chapnumfont}{
+	\usefont{T1}{pnc}{b}{n}
+	\fontsize{100}{100}
+	\selectfont
+}
+
+\renewcommand\DOCH{
+	\settowidth{\py}{\CNoV\thechapter}
+	\addtolength{\py}{0pt}
+	\fboxsep=40pt
+	\colorbox{chapbgcolor}{\rule{0pt}{40pt}\parbox[b]{\textwidth}{\hfill}}
+	\kern-\py\raise20pt
+	\hbox{\color{chapnumcolor}\CNoV\thechapter}\\
+}
+
+\renewcommand\DOTI[1]{
+	\nointerlineskip\raggedright
+	\fboxsep=\myhi
+	\vskip-1ex
+	\colorbox{chapbgcolor}{\parbox[t]{\mylen}{\CTV\FmTi{#1}}}\par\nobreak
+	\vskip 40pt
+}
+
+\renewcommand\DOTIS[1]{
+	\fboxsep=0pt
+	\colorbox{chapbgcolor}{\rule{0pt}{40pt}\parbox[b]{\textwidth}{\hfill}}\\
+	\nointerlineskip\raggedright
+	\fboxsep=\myhi
+	\colorbox{chapbgcolor}{\parbox[t]{\mylen}{\CTV\FmTi{#1}}}\par\nobreak
+	\vskip 40pt
+}
+\makeatother
+
+
+\colorlet{chapbgcolor}{gray!75}
+\colorlet{chapnumcolor}{black!60}
+
+\newcommand{\chaptitle}[1]{
+	\begin{tikzpicture}
+	\fill[chapbgcolor!70,rounded corners=0pt] (0,2.3) rectangle (\linewidth,0);
+	\node[align=right,anchor=south east,inner sep=8pt,font=\huge\normalfont\bfseries] at (0.987\linewidth,0) {#1};
+	\node[font=\fontsize{60}{62}\usefont{OT1}{ptm}{m}{n}\selectfont\itshape\bfseries,text=chapnumcolor] at 
+	(0.975\linewidth,2.1) {\sloppy\thechapter};
+	\end{tikzpicture}
+}
+
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\sffamily}{}{25pt}{\chaptitle}
+\titlespacing*{\chapter} {0pt}{-126pt}{33pt}
+
+\setlength\headheight{15pt}
+
+
+%Settings of definition and proof
+
+\makeatletter
+\newcounter{def}[chapter]
+\newcommand{\thedefinition}{\arabic{def}}
+\NewEnviron{definition}[1][]{%
+	\par\noindent\theoremhang\par\nobreak\noindent%\addvspace{-.5ex}
+	\refstepcounter{def}\postdisplaypenalty=10000 %
+	{\sffamily\bfseries\upshape Definition \thedefinition \@ifnotmtarg{#1}{\ (#1)}}\ \ \itshape\ignorespaces%
+	\BODY % Typeset theorem body/content
+	\par\addvspace{-1ex}\nobreak\noindent\theoremhung\par\addvspace{.4ex}%
+}
+\makeatother
+
+\newcommand{\qedsymbol}{$\square$}
+\newenvironment{proof}{\par\nobreak\noindent\underline{\sffamily Proof.}}{\hspace{\stretch{1}}\qedsymbol\par}
+
+%Settings of titlepage	
+
+
+
+
+
+%lemma,proposition,remark and joke
+\newtheorem{lemma}{\sffamily Lemma}[chapter]
+\newtheorem{proposition}{\sffamily Proposition}[chapter]
+\newtheorem{remark}{\sffamily Remark}[chapter]
+\newtheorem{joke}{\sffamily Joke}[chapter]
+\newtheorem{example}{\sffamily Example}[chapter]
+\newtheorem{exercise}{\sffamily Exercise}[chapter]
+\newtheorem{corollary}{\sffamily Corollary}[chapter]
+
+
+%miscellaneous
+
+\newcommand{\obj}{\mathrm{Obj}}
+\newcommand{\mor}{\mathrm{Mor}}
+\newcommand\thmref[1]{\textbf{Theorem}~\ref{#1}.}
+\newcommand\exampleref[1]{\textbf{Example}~\ref{#1}.}
+\newcommand\defref[1]{\textbf{Definition}~\ref{#1}}
+\newcommand\jokeref[1]{\textbf{Joke}~\ref{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\A}{\mathscr{A}}
+
+
+
+\begin{document}
+	\begin{titlepage}
+
+\begin{center}
+
+
+% Upper part of the page
+
+\textsc{\huge\bfseries 模式识别与统计学习作业}\\[1cm]
+\rule[-10pt]{14.3cm}{0.05em}\\[2cm]
+\large
+\emph{学号：}\textsc{19001353}\\
+\emph{姓名：}\textsc{丁一鸣}
+\vfill
+% Bottom of the page
+{Last \TeX\,\, in\quad\large \today}
+\end{center}
+\end{titlepage}
+
+
+\chapter{基本概念}
+\section{混淆矩阵与评价指标}
+
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Insert code directly in your document}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\footnotesize}
+\lstinputlisting[language=Python]{../Intro/Homework 1.py}
+
+
+
+\chapter{朴素贝叶斯}
+\section{条件独立性证明}
+	定义: $A$ 和 $B$ 在给定事件 $C$ 的条件下相互独立，如果
+	$$
+	P(A, B \mid C)=P(A \mid C) P(B \mid C)
+	$$
+	证明: 事件 $A$，$B$ 和 $C$ 在给定事件 $C$ 的条件下相互独立，当且仅当 $P(C)>0$，且
+	$$
+	P(A \mid B, C)=P(A \mid C)
+	$$
+\textbf{证明：}
+“$\Rightarrow$”：因为 $A$，$B$ 和 $C$ 在给定事件 $C$ 的条件下相互独立，根据定义有
+\begin{align*}
+	P(A, B \mid C)=P(A \mid C) P(B \mid C)
+\end{align*}
+又有$P(C)>0$，则
+\begin{align*}
+	P(A \mid B, C)&=P(A \mid B, C) \frac{P(B \mid C)}{P(B \mid C)} \\
+	&=\frac{P(A \mid B, C) P(B\mid C)}{P(B \mid C)} \\
+	&=\frac{\frac{P(A, B, C)}{P(C)}}{P(B \mid C)} \\
+	&=\frac{P(A, B \mid C)}{P(B \mid C)} \\
+	&=P(A \mid C)
+\end{align*}
+“$\Leftarrow$”：显然，当
+$$
+P(A \mid B, C)=P(A \mid C)
+$$
+两边同乘 $ P(B \mid C)$，则有定义式。
+
+
+\section{骰子问题}
+假设有两对不同的骰子，一对是标准的骰子（每个面的点数为1到6中的一个）， 另一对为 “增广"的骰子，每个面的点数都增加了两个（介于3到8个点）。游戏者 甲从一个装有 $60 \%$ 标准对和40\%增广对的袋子里随机选择一对进行投郑，游戏者乙 在没有骰子信息的情况下，通过获知点数的和进行决策。\\
+\begin{enumerate}
+	\item 应如何决策，使平均错误概率最小化？最小平均错误概率是多少？
+	\item 如果乙猜对是标准骰子对，可获得10元钱，猜对是增广骰子对获得30元 钱，猜错损失10元钱，应如何决策，平均风险如何？
+\end{enumerate}
+
+\section{性别分类问题}
+\begin{figure}[ht]
+
+	\centering
+	\includegraphics[width=\textwidth]{pic/sex.png}
+	\caption{性别分类数据}
+	\label{fig:label}
+\end{figure}
+\chapter{最小二乘线性回归}
+\section{糖尿病数据的回归与预测}
+
+
+\chapter{最近邻分类器}
+\section{FashionMNIST数据的分类}
+
+
+\chapter{决策树}
+\section{打网球数据的分类}
+\begin{figure}[ht]
+
+	\centering
+	\includegraphics[width=0.7\textwidth]{../Decision_Tree/tree.jpg}
+	\caption{Decision tree of tennis data}
+	\label{fig:label}
+\end{figure}
+
+
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Insert code directly in your document}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\footnotesize}
+\lstinputlisting[language=Python]{../Decision_Tree/Decision_Tree.py}
+
+
+\newpage
+\section{不纯度指数的计算}
+\begin{figure}[ht]
+
+	\centering
+	\includegraphics[width=\textwidth]{pic/impure.jpg}
+	\caption{不纯度计算题目}
+	\label{fig:label}
+\end{figure}
+\textbf{解：}
+\begin{enumerate}
+	\item Entropy
+	\item 
+\end{enumerate}
+\end{document}
